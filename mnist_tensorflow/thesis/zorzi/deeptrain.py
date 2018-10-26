@@ -3,6 +3,7 @@ from mnist_tensorflow.thesis.zorzi.rbm_par import rbm_par
 from mpi4py import MPI
 import numpy as np
 import time as time
+import pickle
 
 def deeptrain(maxepoch):
     ''' MPI Init functions '''
@@ -75,5 +76,13 @@ def deeptrain(maxepoch):
     ''' SAVE Proj and WeightsLayer'''
     if (rank == 0):
         Proj["Time"] = time.time() - t
-        fname = ['DeepNet_WORDS_' + str(batchsize) + '.npy']
-        np.save(fname, 'Proj', 'WeightsLayer')
+        fname = 'DeepNet_WORDS_' + str(batchsize)
+        f = open(fname, "w+b")
+        pickle.dump(Proj, f)
+        pickle.dump(WeightsLayer, f)
+        f.close()
+
+        f = open(fname, "rb")
+        value1 = pickle.load(f)
+        value2 = pickle.load(f)
+        f.close()
