@@ -38,5 +38,3 @@ def load_data():
     matrix = np.delete(matrix, np.s_[0:len(alphabet)], axis=1)
 
     return input_data, targets
-
-print(load_data())
